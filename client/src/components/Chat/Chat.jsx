@@ -1,23 +1,44 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
-import PropTypes from 'prop-types';
+import io from "socket.io-client";
 
-export const Chat = () => {
-  return (
-    <div>
+import PropTypes from "prop-types";
+
+// Socket io
+import {
+  JOIN,
+  DISCONNECT
+} from "../../socketsClient/socketUtils";
+
+let socket;
+
+export const Chat = ({ name, room }) => {
+  const ENDPOINT = "localhost:5000";
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+
+    socket.emit(JOIN, { name, room }, () => {
+
+    });
+
+
+    return () => {
+      socket.emit(DISCONNECT);
       
-    </div>
-  )
-}
+      socket.off();
+    }
+  }, [ENDPOINT, name, room]);
 
-const mapStateToProps = (state) => ({
-  
-})
+  return <div></div>;
+};
 
-const mapDispatchToProps = {
-  
-}
+const mapStateToProps = state => ({
+  name: state.chatReducer.name,
+  room: state.chatReducer.room
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Chat)
+const mapDispatchToProps = {};
 
+export default connect(mapStateToProps)(Chat);

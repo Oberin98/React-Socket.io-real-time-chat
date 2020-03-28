@@ -1,23 +1,63 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
-import PropTypes from 'prop-types';
+// Styles
+import "./Join.css";
 
-export const Join = () => {
+// Redux
+import { connectChat } from "../../redux/actions/chatActions";
+
+import PropTypes from "prop-types";
+
+export const Join = (props) => {
+  const [name, setName] = useState("");
+  const [room, setRoom] = useState("");
+  const history = useHistory();
+
+  const redirectToChat = () => {
+    if (!room || !name) {
+      return;
+    } else {
+      props.connectChat(name, room);
+      history.push(`/chat?name=${name}&room=${room}`);
+    }
+  };
+
   return (
-    <div>
-      <h1>Join</h1>
+    <div className="joinOuterContainer">
+      <div className="joinInnerContainer">
+        <h1 className="heading">Join</h1>
+        <div>
+          <input
+            placeholder="Name"
+            className="joinInput"
+            type="text"
+            onChange={event => setName(event.target.value)}
+          />
+        </div>
+        <div>
+          <input
+            placeholder="Room"
+            className="joinInput mt-20"
+            type="text"
+            onChange={event => setRoom(event.target.value)}
+          />
+        </div>
+        <button
+          className={"button mt-20"}
+          type="button"
+          onClick={() => redirectToChat()}
+        >
+          Sign In
+        </button>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = (state) => ({
-  
-})
+const mapDispatchToProps = (dispatch) => ({
+  connectChat: (name, room) => dispatch(connectChat(name, room))
+});
 
-const mapDispatchToProps = {
-  
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Join)
-
+export default connect(null, mapDispatchToProps)(Join);

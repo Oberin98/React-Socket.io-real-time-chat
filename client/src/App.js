@@ -5,6 +5,9 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Join from './components/Join/Join';
 import Chat from './components/Chat/Chat';
 
+// Styles
+import './App.css'
+
 const App = () => {
 
   return (
