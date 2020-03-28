@@ -1,10 +1,12 @@
 import {
-  CONNECT_CHAT
+  CONNECT_CHAT,
+  ADD_MESSAGE
 } from '../actions/actionTypes';
 
 const initialState = {
   name: '',
-  room: ''
+  room: '',
+  messages: []
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -13,6 +15,12 @@ const chatReducer = (state = initialState, action) => {
       return {
         ...state,
         ...action.payload
+      };
+
+    case ADD_MESSAGE:
+      return {
+        ...state,
+        messages: [...state.messages, action.payload]
       };
     default:
       return state

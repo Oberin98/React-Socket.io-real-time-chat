@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 // Styles
 import "./Join.css";
@@ -10,7 +10,7 @@ import { connectChat } from "../../redux/actions/chatActions";
 
 import PropTypes from "prop-types";
 
-export const Join = (props) => {
+export const Join = ({ connectChat }) => {
   const [name, setName] = useState("");
   const [room, setRoom] = useState("");
   const history = useHistory();
@@ -19,7 +19,7 @@ export const Join = (props) => {
     if (!room || !name) {
       return;
     } else {
-      props.connectChat(name, room);
+      connectChat(name, room);
       history.push(`/chat?name=${name}&room=${room}`);
     }
   };
@@ -56,7 +56,7 @@ export const Join = (props) => {
   );
 };
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   connectChat: (name, room) => dispatch(connectChat(name, room))
 });
 
