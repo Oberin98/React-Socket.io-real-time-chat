@@ -1,0 +1,5 @@
+
+module.exports = {
+  CONNECTION: 'CONNECTION',
+  DISCONNECT: 'DISCONNECT',
+}
