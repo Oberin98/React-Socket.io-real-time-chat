@@ -22,8 +22,6 @@ const setIoServer = server => {
         // Then add validation and arror handling
         // callback()
       }
-
-      console.log(name, room)
       socket.emit(MESSAGE, { user: 'admin', message: `User ${name} welcome to ${room} room!` });
       socket.broadcast.to(chat.room).emit(MESSAGE, { user: 'admin', message: `${name} has joined!` });
 

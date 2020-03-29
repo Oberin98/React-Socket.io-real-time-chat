@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
+import PropTypes from "prop-types";
+
 // Styles
 import "./Join.css";
 
 // Redux
 import { connectChat } from "../../redux/actions/chatActions";
-
-import PropTypes from "prop-types";
 
 export const Join = ({ connectChat }) => {
   const [name, setName] = useState("");
@@ -55,6 +55,10 @@ export const Join = ({ connectChat }) => {
     </div>
   );
 };
+
+Join.propTypes = {
+  connectChat: PropTypes.func.isRequired
+}
 
 const mapDispatchToProps = dispatch => ({
   connectChat: (name, room) => dispatch(connectChat(name, room))

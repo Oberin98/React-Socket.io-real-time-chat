@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useParams } from 'react-router';
+import { useParams } from "react-router";
+
+import PropTypes from "prop-types";
 
 // Styles
 import "./NavBar.css";
@@ -9,14 +11,19 @@ import "./NavBar.css";
 // icons
 import onlineicon from "../../icons/onlineIcon.png";
 
-export const NavBar = ({ socket }) => {
-  const { room } = useParams();
-  const history = useHistory();
 
+export const NavBar = ({ socket, setRoomAndName }) => {
+  const { room, name } = useParams();
+  const history = useHistory();
+ 
   const leaveChat = () => {
     socket.close();
     history.push("/");
-  }
+  };
+
+  useEffect(() => {
+    setRoomAndName(name, room)
+    }, [name, room, setRoomAndName]);
 
   return (
     <header className="navBar">
@@ -33,8 +40,9 @@ export const NavBar = ({ socket }) => {
   );
 };
 
-const mapStateToProps = state => ({
+NavBar.propTypes = {
+  socket: PropTypes.object,
+  setRoomAndName: PropTypes.func.isRequired
+};
 
-});
-
-export default connect(mapStateToProps)(NavBar);
+export default connect(null)(NavBar);

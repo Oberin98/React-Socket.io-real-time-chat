@@ -6,12 +6,13 @@ import PropTypes from "prop-types";
 
 // Components
 import { NavBar } from "../NavBar/NavBar";
+import { SendMessageInput } from "../SendMessageInput/SendMessageInput";
 
 // Styles
 import "./Chat.css";
 
 // Redux
-import { addMessage } from "../../redux/actions/chatActions";
+import { addMessage, setRoomAndName } from "../../redux/actions/chatActions";
 
 // Socket io
 import {
@@ -22,7 +23,7 @@ import {
 } from "../../socketsClient/socketUtils";
 let socket;
 
-export const Chat = ({ name, room, messages, addMessage }) => {
+export const Chat = ({ name, room, addMessage, setRoomAndName }) => {
   const [message, setMessage] = useState("");
   const ENDPOINT = "localhost:5000";
 
@@ -55,26 +56,27 @@ export const Chat = ({ name, room, messages, addMessage }) => {
   return (
     <section className="outerContainer">
       <div className="container">
-        <NavBar socket={socket} />
-        {/* <input
-          type="text"
-          value={message}
-          onChange={event => setMessage(event.target.value)}
-          onKeyPress={event => event.key === "Enter" && sendMessage(event)}
-        /> */}
+        <NavBar socket={socket} setRoomAndName={setRoomAndName} />
+        <SendMessageInput  message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
     </section>
   );
 };
 
+Chat.propTypes = {
+  name: PropTypes.string.isRequired,
+  room: PropTypes.string.isRequired,
+  addMessage: PropTypes.func.isRequired,
+}
+
 const mapStateToProps = state => ({
   name: state.chatReducer.name,
   room: state.chatReducer.room,
-  messages: state.chatReducer.messages
 });
 
 const mapDispatchToProps = dispatch => ({
-  addMessage: message => dispatch(addMessage(message))
+  addMessage: message => dispatch(addMessage(message)),
+  setRoomAndName: (room, name) => dispatch(setRoomAndName(room, name))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);
