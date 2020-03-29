@@ -11,7 +11,7 @@ export const connectChat = (name, room) => ({
   }
 });
 
-export const addMessage = (message) => ({
+export const addMessage = message => ({
   type: ADD_MESSAGE,
-  message  
+  payload: message
 })

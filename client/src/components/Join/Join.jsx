@@ -20,7 +20,7 @@ export const Join = ({ connectChat }) => {
       return;
     } else {
       connectChat(name, room);
-      history.push(`/chat?name=${name}&room=${room}`);
+      history.push(`/chat/${room}/${name}`);
     }
   };
 
