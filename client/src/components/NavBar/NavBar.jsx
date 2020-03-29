@@ -22,7 +22,7 @@ export const NavBar = ({ socket, setRoomAndName }) => {
   };
 
   useEffect(() => {
-    setRoomAndName(name, room)
+    setRoomAndName(room, name)
     }, [name, room, setRoomAndName]);
 
   return (

@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 // Components
 import { NavBar } from "../NavBar/NavBar";
 import { SendMessageInput } from "../SendMessageInput/SendMessageInput";
+import { Messages } from "../Messages/Messages";
 
 // Styles
 import "./Chat.css";
@@ -23,7 +24,7 @@ import {
 } from "../../socketsClient/socketUtils";
 let socket;
 
-export const Chat = ({ name, room, addMessage, setRoomAndName }) => {
+export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
   const [message, setMessage] = useState("");
   const ENDPOINT = "localhost:5000";
 
@@ -42,6 +43,7 @@ export const Chat = ({ name, room, addMessage, setRoomAndName }) => {
   // Listeninig to getting new message
   useEffect(() => {
     socket.on(MESSAGE, message => {
+      console.log(message)
       addMessage(message);
     });
   }, [addMessage]);
@@ -57,6 +59,7 @@ export const Chat = ({ name, room, addMessage, setRoomAndName }) => {
     <section className="outerContainer">
       <div className="container">
         <NavBar socket={socket} setRoomAndName={setRoomAndName} />
+        <Messages messages={messages} name={name} />
         <SendMessageInput  message={message} setMessage={setMessage} sendMessage={sendMessage} />
       </div>
     </section>
@@ -72,6 +75,7 @@ Chat.propTypes = {
 const mapStateToProps = state => ({
   name: state.chatReducer.name,
   room: state.chatReducer.room,
+  messages: state.chatReducer.messages
 });
 
 const mapDispatchToProps = dispatch => ({

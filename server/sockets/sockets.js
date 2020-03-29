@@ -32,6 +32,7 @@ const setIoServer = server => {
 
     socket.on(SEND_MESSAGE, ({ message, room }, callback) => {
       const id = socket.id;
+      console.log(message, room)
       const user = DB.getUserFromChat({ room, id });
       io.to(room).emit(MESSAGE, { user: user.name, message });
 
