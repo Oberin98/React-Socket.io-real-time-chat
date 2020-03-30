@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 // Components
 import { NavBar } from "../NavBar/NavBar";
 import { SendMessageInput } from "../SendMessageInput/SendMessageInput";
-import { Messages } from "../Messages/Messages";
+import { Messages } from "../SendMessageInput/Messages/Messages";
 
 // Styles
 import "./Chat.css";

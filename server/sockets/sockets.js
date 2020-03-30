@@ -26,15 +26,16 @@ const setIoServer = server => {
       socket.broadcast.to(chat.room).emit(MESSAGE, { user: 'admin', message: `${name} has joined!` });
 
       socket.join(chat.room);
-
+      console.log(chat.room, 'chatRoom')
       callback();
     })
 
-    socket.on(SEND_MESSAGE, ({ message, room }, callback) => {
+    socket.on(SEND_MESSAGE, ({ message, room }, callback) =>  {
       const id = socket.id;
       console.log(message, room)
       const user = DB.getUserFromChat({ room, id });
-      io.to(room).emit(MESSAGE, { user: user.name, message });
+      io.in(room).emit(MESSAGE, { user: user.name, message });
+      // io.emit(MESSAGE, { user: user.name, message });
 
       callback();
     })

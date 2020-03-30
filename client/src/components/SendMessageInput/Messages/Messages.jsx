@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
 import "./Messages.css";
 
 // Components
-import Message from '../Message/Message';
+import Message from './Message/Message';
 
 export const Messages = ({ messages, name }) => {
   return (
-    <ScrollToBottom>
+    <ScrollToBottom className="chatBody">
       {messages.map((message, index) => (
         <Message message={message} currentUser={name} key={index} />
       ))}

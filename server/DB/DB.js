@@ -54,15 +54,16 @@ class MyDatabase {
     chat.addUser({ id, name });
 
     this.chats.push(chat);
-
     return chat
   }
 
   addUserToChat({ id, name, room }) {
     const existingChat = this.chats.findIndex(chat => chat.room === room);
+
     if (existingChat > -1) {
       this.chats[existingChat].addUser({ id, name });
-      return { chat: existingChat };
+
+      return { chat: this.chats[existingChat] };
     }
 
     return { error: 'Chat with this name does not exist' }
@@ -75,7 +76,6 @@ class MyDatabase {
     }
     return chat.getUser(id)
   }
-
 }
 
 const db = new MyDatabase();
