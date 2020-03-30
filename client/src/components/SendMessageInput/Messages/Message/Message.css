@@ -22,7 +22,7 @@
 .messageContainer {
   display: flex;
   justify-content: flex-end;
-  padding: 0 5%;
+  padding: 0 1%;
   margin-top: 3px;
 }
 
@@ -30,7 +30,7 @@
   display: flex;
   align-items: center;
   font-family: Helvetica;
-  color: #828282;
+  color: #232942;
   letter-spacing: 0.3px;
 }
 
@@ -51,11 +51,11 @@
 }
 
 .colorWhite {
-  color: white;
+  color: rgb(35,41,66)
 }
 
 .colorDark {
-  color: #353535;
+  color: #232942;
 }
 
 .backgroundBlue {

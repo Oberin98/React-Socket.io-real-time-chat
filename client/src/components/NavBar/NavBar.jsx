@@ -32,7 +32,7 @@ export const NavBar = ({ socket, setRoomAndName }) => {
         <h3>{room}</h3>
       </div>
       <div className="rightInnerContainer">
-        <button type="button" onClick={() => leaveChat()}>
+        <button type="button" className="leaveChat" onClick={() => leaveChat()}>
           Leave chat
         </button>
       </div>

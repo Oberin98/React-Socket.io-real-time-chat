@@ -43,7 +43,6 @@ export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
   // Listeninig to getting new message
   useEffect(() => {
     socket.on(MESSAGE, message => {
-      console.log(message)
       addMessage(message);
     });
   }, [addMessage]);
@@ -57,7 +56,12 @@ export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
 
   return (
     <section className="outerContainer">
-      <div className="container">
+      <div className="membersContainer">
+        <h3 className="membersHeader">
+          Members
+        </h3>
+      </div>
+      <div className="chatContainer">
         <NavBar socket={socket} setRoomAndName={setRoomAndName} />
         <Messages messages={messages} name={name} />
         <SendMessageInput  message={message} setMessage={setMessage} sendMessage={sendMessage} />

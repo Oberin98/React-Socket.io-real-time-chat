@@ -2,19 +2,33 @@
 .outerContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: stretch;
   height: 100vh;
-  background-color: #1A1A1D;
 }
 
-.container {
+.membersContainer {
+  width: 20%;
+  background-color: #232942;
+}
+
+.membersHeader {
+  width: 100%;
+  background-color: rgb(10, 17, 46);
+  height: 60px;
+  border-right: 1px solid #232942;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 6px -2px rgba(0,0,0, .4);
+}
+
+.chatContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #FFFFFF;
-  border-radius: 8px;
-  height: 60%;
-  width: 35%;
+  background: powderblue;
+  width: 80%;
 }
 
 @media (min-width: 320px) and (max-width: 480px) {

@@ -11,13 +11,13 @@ export const SendMessageInput = ({ message, setMessage, sendMessage }) => {
     <form className="sendMessageFrom" onSubmit={event => sendMessage(event)}>
       <input
         type="text"
-        className="sendMessageInput"
+        className="sendMessageInput noBorder"
         placeholder="Type message..."
         value={message}
         onChange={event => setMessage(event.target.value)}
         onKeyPress={event => event.key === "Enter" && sendMessage(event)}
       />
-      <button className="sendMessageButton" type="submit">
+      <button className="sendMessageButton noBorder" type="submit">
         Send
       </button>
     </form>
