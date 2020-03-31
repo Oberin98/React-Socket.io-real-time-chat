@@ -7,7 +7,8 @@ import "./Message.css";
 
 const Message = ({ message: { user, message }, currentUser }) => {
   let isSentByCurrentUser = false;
-
+  currentUser = currentUser.trim().toLowerCase();
+  
   if (user === currentUser) {
     isSentByCurrentUser = true;
   }

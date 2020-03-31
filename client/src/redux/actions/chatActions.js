@@ -2,7 +2,8 @@ import {
   CONNECT_CHAT,
   ADD_MESSAGE,
   SET_ROM_AND_NAME,
-  ADD_MEMBER
+  ADD_MEMBER,
+
 } from './actionTypes';
 
 export const connectChat = (name, room) => ({

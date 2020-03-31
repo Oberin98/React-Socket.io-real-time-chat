@@ -1,5 +1,4 @@
 import React from "react";
-// import { connect } from "react-redux";
 
 import ScrollToBottom from "react-scroll-to-bottom";
 import PropTypes from "prop-types";
@@ -24,12 +23,5 @@ Messages.propTypes = {
   messages: PropTypes.arrayOf(PropTypes.object),
   name: PropTypes.string.isRequired
 };
-
-// const mapStateToProps = state => ({
-//   messages: state.chatReducer.messages,
-//   name: state.chatReducer.name
-// });
-
-// export default connect(mapStateToProps)(Messages);
 
 export default Messages

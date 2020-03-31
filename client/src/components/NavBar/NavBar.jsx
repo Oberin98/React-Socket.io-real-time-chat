@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useParams } from "react-router";
 
@@ -45,4 +44,4 @@ NavBar.propTypes = {
   setRoomAndName: PropTypes.func.isRequired
 };
 
-export default connect(null)(NavBar);
+export default NavBar;

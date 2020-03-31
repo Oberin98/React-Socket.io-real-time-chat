@@ -5,9 +5,10 @@ import io from "socket.io-client";
 import PropTypes from "prop-types";
 
 // Components
-import { NavBar } from "../NavBar/NavBar";
-import { SendMessageInput } from "../SendMessageInput/SendMessageInput";
-import { Messages } from "../SendMessageInput/Messages/Messages";
+import NavBar from "../NavBar/NavBar";
+import SendMessageInput from "../SendMessageInput/SendMessageInput";
+import Messages from "../Messages/Messages";
+import Video from "../Video/Video";
 
 // Styles
 import "./Chat.css";
@@ -38,8 +39,10 @@ export const Chat = ({
   setRoomAndName,
   messages,
   addMember,
-  members
+  members,
+  isVideo
 }) => {
+
   const [message, setMessage] = useState("");
   const ENDPOINT = "localhost:5000";
 
@@ -55,12 +58,12 @@ export const Chat = ({
     };
   }, [ENDPOINT, name, room, addMember]);
 
+  // Setting members
   useEffect(() => {
     socket.on(ADD_MEMBER, members => {
       addMember(members);
     });
   }, [addMember]);
-  console.log(members);
 
   // Listeninig to getting new message
   useEffect(() => {
@@ -68,12 +71,15 @@ export const Chat = ({
       addMessage(message);
     });
   }, [addMessage]);
+
+
   const sendMessage = event => {
     event.preventDefault();
     if (message) {
       socket.emit(SEND_MESSAGE, { message, room }, () => setMessage(""));
     }
   };
+
   return (
     <section className="outerContainer">
       <div className="membersContainer">
@@ -94,34 +100,45 @@ export const Chat = ({
       </div>
       <div className="chatContainer">
         <NavBar socket={socket} setRoomAndName={setRoomAndName} />
-        <Messages messages={messages} name={name} />
-        <SendMessageInput
-          message={message}
-          setMessage={setMessage}
-          sendMessage={sendMessage}
-        />
+        {
+          isVideo
+          ? <Video />
+          : <>
+            <Messages messages={messages} name={name} />
+          <SendMessageInput
+            message={message}
+            setMessage={setMessage}
+            sendMessage={sendMessage}
+          />
+          </>
+        }
       </div>
     </section>
   );
 };
 
+
+// PropTypes
 Chat.propTypes = {
   name: PropTypes.string.isRequired,
   room: PropTypes.string.isRequired,
-  addMessage: PropTypes.func.isRequired
+  addMessage: PropTypes.func.isRequired,
+  isVideo: PropTypes.bool.isRequired
 };
 
+// Redux
 const mapStateToProps = state => ({
   name: state.chatReducer.name,
   room: state.chatReducer.room,
   messages: state.chatReducer.messages,
-  members: state.chatReducer.members
+  members: state.chatReducer.members,
+  isVideo: state.chatEnvReducer.isVideo
 });
 
 const mapDispatchToProps = dispatch => ({
   addMessage: message => dispatch(addMessage(message)),
   setRoomAndName: (room, name) => dispatch(setRoomAndName(room, name)),
-  addMember: (name, room, id) => dispatch(addMember(name, room, id))
+  addMember: (name, room, id) => dispatch(addMember(name, room, id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

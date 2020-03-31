@@ -3,10 +3,14 @@ import { connect } from "react-redux";
 
 import PropTypes from "prop-types";
 
+// Components
+import { startVideo } from '../../redux/actions//chatEnvActions';
+
 // Styles
 import "./SendMessageInput.css";
+import video from "../../icons/play.png";
 
-export const SendMessageInput = ({ message, setMessage, sendMessage }) => {
+export const SendMessageInput = ({ message, setMessage, sendMessage, startVideo }) => {
   return (
     <form className="sendMessageFrom" onSubmit={event => sendMessage(event)}>
       <input
@@ -18,7 +22,10 @@ export const SendMessageInput = ({ message, setMessage, sendMessage }) => {
         onKeyPress={event => event.key === "Enter" && sendMessage(event)}
       />
       <button className="sendMessageButton noBorder" type="submit">
-        Send
+        <p>Send</p>
+      </button>
+      <button className="startVideoButton noBorder" type="button">
+        <img src={video} alt="Record" onClick={() => startVideo(true)}/>
       </button>
     </form>
   );
@@ -32,6 +39,8 @@ SendMessageInput.propTypes = {
 
 const mapStateToProps = state => ({});
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = dispatch => ({
+  startVideo: start => dispatch(startVideo(start)) 
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendMessageInput);
