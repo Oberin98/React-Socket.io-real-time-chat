@@ -4,9 +4,10 @@ const {
   DISCONNECT,
   JOIN,
   MESSAGE,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  ADD_MEMBER
 } = require('./socketActions')
-
+JOIN
 const DB = require('../DB/DB');
 
 const setIoServer = server => {
@@ -22,15 +23,21 @@ const setIoServer = server => {
         // Then add validation and arror handling
         // callback()
       }
+      const { membersError, users } = DB.getAllUsers(room);
+      if(membersError) {
+        socket.emit(MEMBERS_ERROR)
+      } else {
+        socket.emit(ADD_MEMBER, users)
+      }
+
       socket.emit(MESSAGE, { user: 'admin', message: `User ${name} welcome to ${room} room!` });
       socket.broadcast.to(chat.room).emit(MESSAGE, { user: 'admin', message: `${name} has joined!` });
 
       socket.join(chat.room);
-      console.log(chat.room, 'chatRoom')
       callback();
     })
 
-    socket.on(SEND_MESSAGE, ({ message, room }, callback) =>  {
+    socket.on(SEND_MESSAGE, ({ message, room }, callback) => {
       const id = socket.id;
       console.log(message, room)
       const user = DB.getUserFromChat({ room, id });

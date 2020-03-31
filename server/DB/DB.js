@@ -76,6 +76,16 @@ class MyDatabase {
     }
     return chat.getUser(id)
   }
+
+  getAllUsers(room) {
+    const chat = this.chats.find(chat => chat.room === room);
+
+    if(!chat) {
+      return { membersError: 'Such chat does not exist' }
+    }
+
+    return { users: chat.users }
+  }
 }
 
 const db = new MyDatabase();

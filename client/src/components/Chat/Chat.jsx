@@ -11,20 +11,35 @@ import { Messages } from "../SendMessageInput/Messages/Messages";
 
 // Styles
 import "./Chat.css";
+import usericon from "../../icons/user.png";
 
 // Redux
-import { addMessage, setRoomAndName } from "../../redux/actions/chatActions";
+import {
+  addMessage,
+  setRoomAndName,
+  addMember
+} from "../../redux/actions/chatActions";
 
 // Socket io
 import {
   JOIN,
   DISCONNECT,
   MESSAGE,
-  SEND_MESSAGE
+  SEND_MESSAGE,
+  ADD_MEMBER
 } from "../../socketsClient/socketUtils";
 let socket;
 
-export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
+// CHAT COMPONENT
+export const Chat = ({
+  name,
+  room,
+  addMessage,
+  setRoomAndName,
+  messages,
+  addMember,
+  members
+}) => {
   const [message, setMessage] = useState("");
   const ENDPOINT = "localhost:5000";
 
@@ -38,7 +53,14 @@ export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
 
       socket.off();
     };
-  }, [ENDPOINT, name, room]);
+  }, [ENDPOINT, name, room, addMember]);
+
+  useEffect(() => {
+    socket.on(ADD_MEMBER, members => {
+      addMember(members);
+    });
+  }, [addMember]);
+  console.log(members);
 
   // Listeninig to getting new message
   useEffect(() => {
@@ -46,25 +68,38 @@ export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
       addMessage(message);
     });
   }, [addMessage]);
-
   const sendMessage = event => {
     event.preventDefault();
     if (message) {
       socket.emit(SEND_MESSAGE, { message, room }, () => setMessage(""));
     }
   };
-
   return (
     <section className="outerContainer">
       <div className="membersContainer">
-        <h3 className="membersHeader">
-          Members
-        </h3>
+        <h3 className="membersHeader">Members</h3>
+        <div className="members">
+          {members &&
+            members.map((member, ind) => {
+              return (
+                <div className="memberContainer">
+                  <div className="member" key={ind}>
+                    <img src={usericon} alt="user" className="userIcon" />
+                    <h5>{member.name}</h5>
+                  </div>
+                </div>
+              );
+            })}
+        </div>
       </div>
       <div className="chatContainer">
         <NavBar socket={socket} setRoomAndName={setRoomAndName} />
         <Messages messages={messages} name={name} />
-        <SendMessageInput  message={message} setMessage={setMessage} sendMessage={sendMessage} />
+        <SendMessageInput
+          message={message}
+          setMessage={setMessage}
+          sendMessage={sendMessage}
+        />
       </div>
     </section>
   );
@@ -73,18 +108,20 @@ export const Chat = ({ name, room, addMessage, setRoomAndName, messages }) => {
 Chat.propTypes = {
   name: PropTypes.string.isRequired,
   room: PropTypes.string.isRequired,
-  addMessage: PropTypes.func.isRequired,
-}
+  addMessage: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({
   name: state.chatReducer.name,
   room: state.chatReducer.room,
-  messages: state.chatReducer.messages
+  messages: state.chatReducer.messages,
+  members: state.chatReducer.members
 });
 
 const mapDispatchToProps = dispatch => ({
   addMessage: message => dispatch(addMessage(message)),
-  setRoomAndName: (room, name) => dispatch(setRoomAndName(room, name))
+  setRoomAndName: (room, name) => dispatch(setRoomAndName(room, name)),
+  addMember: (name, room, id) => dispatch(addMember(name, room, id))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Chat);

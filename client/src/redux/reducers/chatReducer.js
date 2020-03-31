@@ -1,13 +1,15 @@
 import {
   CONNECT_CHAT,
   ADD_MESSAGE,
-  SET_ROM_AND_NAME
+  SET_ROM_AND_NAME,
+  ADD_MEMBER
 } from '../actions/actionTypes';
 
 const initialState = {
   name: '',
   room: '',
-  messages: []
+  messages: [],
+  membrs: [],
 };
 
 const chatReducer = (state = initialState, action) => {
@@ -29,6 +31,13 @@ const chatReducer = (state = initialState, action) => {
         ...state,
         ...action.payload
       };
+
+    case ADD_MEMBER:
+      debugger
+      return {
+        ...state,
+        members: [...action.payload]
+      }
     default:
       return state
   }

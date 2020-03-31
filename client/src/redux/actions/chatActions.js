@@ -2,6 +2,7 @@ import {
   CONNECT_CHAT,
   ADD_MESSAGE,
   SET_ROM_AND_NAME,
+  ADD_MEMBER
 } from './actionTypes';
 
 export const connectChat = (name, room) => ({
@@ -27,3 +28,8 @@ export const setRoomAndName = (room, name) => {
     }
   }
 }
+
+export const addMember = (members) => ({
+  type: ADD_MEMBER,
+  payload: members
+})

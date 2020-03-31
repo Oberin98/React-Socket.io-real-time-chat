@@ -47,3 +47,39 @@
     width: 60%;
   }
 }
+
+.members {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.memberContainer {
+  width: 100%;
+  border-bottom: 1px solid rgba(176,224,230, .3);
+  padding: 20px 0;
+  transition: all .5s;
+}
+
+.memberContainer:hover {
+  border-bottom: 2px solid rgba(176,224,230, .3);
+}
+
+.member {
+  display: flex;
+  width: 40%;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 auto;
+  font-size: 150%;
+  color: white;
+  cursor: pointer;
+}
+
+.userIcon {
+  width: 35px;
+  height: 35px;
+  background-color: #fff;
+  padding: 3px;
+  border-radius: 50%;
+  margin-right: 10px; 
+}
