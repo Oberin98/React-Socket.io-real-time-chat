@@ -11,10 +11,12 @@ import './App.css'
 const App = () => {
 
   return (
-    <Router>
-      <Route path='/' exact component={Join} />
-      <Route path='/chat/:room/:name' component={Chat} />
-    </Router>
+    <>
+      <Router>
+        <Route path='/' exact component={Join} />
+        <Route path='/chat/:room/:name' component={Chat} />
+      </Router>
+    </>
   )
 }
 
