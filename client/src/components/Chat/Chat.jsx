@@ -29,6 +29,7 @@ import {
   SEND_MESSAGE,
   ADD_MEMBER
 } from "../../socketsClient/socketUtils";
+
 let socket;
 
 // CHAT COMPONENT
@@ -102,7 +103,7 @@ export const Chat = ({
         <NavBar socket={socket} setRoomAndName={setRoomAndName} />
         {
           isVideo
-          ? <Video />
+          ? <Video socket={socket} room={room} />
           : <>
             <Messages messages={messages} name={name} />
           <SendMessageInput

@@ -1,27 +1,35 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
 // Styles
 import "./Video.css";
 
+// Socket actions
+import {
+  CALL,
+  BACK_CALL,
+  MAKE_ANSWER,
+  ANSWER_MADE
+} from "../../socketsClient/socketUtils";
+
 const videoType = "video/webm";
 
-const Video = () => {
-  const [recording, setRecording] = useState(false);
-  const [videos, setVideos] = useState([]);
-  const mediaRecorder = useRef(null); 
+const Video = ({ socket, room }) => {
+  const mediaRecorder = useRef(null);
 
-  let video = {};
+  let localVideo = {};
+  let remoteVideo = {};
   // init data storage for video chunks
   let chunks = [];
-  
+
   useEffect(() => {
     (async () => {
       const stream = await navigator.mediaDevices.getUserMedia({
         video: true,
         audio: true
       });
-      video.srcObject = stream;
-      video.play();
+      localVideo.srcObject = stream;
+      localVideo.play();
       mediaRecorder.current = new MediaRecorder(stream, {
         mimeType: videoType
       });
@@ -32,66 +40,71 @@ const Video = () => {
         }
       };
     })();
-  }, [chunks, video]);
+  }, [chunks, localVideo]);
 
-  const startRecording = e => {
-    e.preventDefault();
-    // wipe old data chunks
-    chunks = [];
-    // start recorder with 10ms buffer
-    mediaRecorder.state()
-    debugger
-    mediaRecorder.start(10);
-    // say that we're recording
-    setRecording(true);
-  };
+  useEffect(() => {
+    let peerConnection = new RTCPeerConnection();
+    const callUser = async room => {
+      const offer = await peerConnection.createOffer();
+      await peerConnection.setLocalDescription(
+        new RTCSessionDescription(offer)
+      );
 
-  const stopRecording = e => {
-    e.preventDefault();
-    // stop the recorder
-    mediaRecorder.stop();
-    // say that we're not recording
-    setRecording(false);
-    // save the video to memory
-    saveVideo();
-  };
+      socket.emit(CALL, {
+        offer,
+        room
+      });
+    };
 
-  const saveVideo = () => {
-    // convert saved chunks to blob
-    const blob = new Blob(chunks, { type: videoType });
-    // generate video url from blob
-    const videoURL = window.URL.createObjectURL(blob);
-    // append videoURL to list of saved videos for rendering
-    setVideos(prevState => prevState.concat([videoURL]));
-  };
+    callUser(room);
+
+    socket.on(BACK_CALL, async ({ offer, room }) => {
+      await peerConnection.setRemoteDescription(
+        new RTCSessionDescription(offer)
+      );
+      const answer = await peerConnection.createAnswer();
+      await peerConnection.setLocalDescription(
+        new RTCSessionDescription(answer)
+      );
+
+      socket.emit(MAKE_ANSWER, {
+        answer,
+        room
+      });
+    });
+
+    socket.on(ANSWER_MADE, async answer => {
+      await peerConnection.setRemoteDescription(
+        new RTCSessionDescription(answer)
+      );
+    });
+
+    peerConnection.ontrack = function({ streams: [stream] }) {
+      remoteVideo.srcObject = stream;
+      remoteVideo.play();
+    };
+  }, [remoteVideo, socket, room]);
 
   return (
     <div className="camera">
       <video
         style={{ width: 400 }}
         ref={v => {
-          video = v;
+          localVideo = v;
         }}
-      >
-        Video stream not available.
-      </video>
-      <div>
-        {!recording && <button onClick={e => startRecording(e)}>Record</button>}
-        {recording && <button onClick={e => stopRecording(e)}>Stop</button>}
-      </div>
-      <div>
-        <h3>Recorded videos:</h3>
-        {videos.map((videoURL, i) => (
-          <div key={`video_${i}`}>
-            <video style={{ width: 200 }} src={videoURL} autoPlay loop />
-            <div>
-              <a href={videoURL}>Download</a>
-            </div>
-          </div>
-        ))}
-      </div>
+      ></video>
+      <video
+        style={{ width: 800 }}
+        ref={v => {
+          remoteVideo = v;
+        }}
+      ></video>
     </div>
   );
+};
+
+Video.propType = {
+  socket: PropTypes.object.isRequired
 };
 
 export default Video;

@@ -5,9 +5,13 @@ const {
   JOIN,
   MESSAGE,
   SEND_MESSAGE,
-  ADD_MEMBER
+  ADD_MEMBER,
+  CALL,
+  BACK_CALL,
+  MAKE_ANSWER,
+  ANSWER_MADE
 } = require('./socketActions')
-JOIN
+
 const DB = require('../DB/DB');
 
 const setIoServer = server => {
@@ -20,11 +24,11 @@ const setIoServer = server => {
       let { error, chat } = DB.addUserToChat({ name, room, id });
       if (error) {
         chat = DB.createNewChat({ name, room, id });
-        // Then add validation and arror handling
+        // Then add validation and error handling
         // callback()
       }
       const { membersError, users } = DB.getAllUsers(room);
-      if(membersError) {
+      if (membersError) {
         socket.emit(MEMBERS_ERROR)
       } else {
         socket.emit(ADD_MEMBER, users)
@@ -39,12 +43,19 @@ const setIoServer = server => {
 
     socket.on(SEND_MESSAGE, ({ message, room }, callback) => {
       const id = socket.id;
-      console.log(message, room)
       const user = DB.getUserFromChat({ room, id });
       io.in(room).emit(MESSAGE, { user: user.name, message });
-      // io.emit(MESSAGE, { user: user.name, message });
 
       callback();
+    })
+
+    socket.on(CALL, ({ offer, room }) => {
+      // There must be a broadcast against simple emit
+      io.in(room).emit(BACK_CALL, { offer, room })
+    })
+
+    socket.on(MAKE_ANSWER, ({ answer, room }) => {
+      io.in(room).emit(ANSWER_MADE, answer);
     })
 
     socket.on(DISCONNECT, (message, callback) => {

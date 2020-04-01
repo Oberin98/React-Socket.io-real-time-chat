@@ -33,7 +33,6 @@ const chatReducer = (state = initialState, action) => {
       };
 
     case ADD_MEMBER:
-      debugger
       return {
         ...state,
         members: [...action.payload]
