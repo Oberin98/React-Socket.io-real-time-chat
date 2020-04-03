@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 
-import chatReducer from './reducers/chatReducer'
+import chatReducer from './reducers/chatReducer';
+import chatEnvReducer from './reducers/chatEnvReducer';
 
 const reducers = combineReducers({
-  chatReducer
+  chatReducer,
+  chatEnvReducer
 })
 
 export default reducers;

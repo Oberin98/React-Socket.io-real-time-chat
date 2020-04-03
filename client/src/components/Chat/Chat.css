@@ -1,0 +1,86 @@
+
+.outerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 100vh;
+}
+
+.membersContainer {
+  width: 20%;
+  background-color: #232942;
+}
+
+.membersHeader {
+  width: 100%;
+  background-color: rgb(10, 17, 46);
+  height: 60px;
+  border-right: 1px solid #232942;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 6px -2px rgba(0,0,0, .4);
+}
+
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: powderblue;
+  width: 80%;
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  .outerContainer {
+    height: 100%;
+  }
+
+  .container {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (min-width: 480px) and (max-width: 1200px) {
+  .container {
+    width: 60%;
+  }
+}
+
+.members {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.memberContainer {
+  width: 100%;
+  border-bottom: 1px solid rgba(176,224,230, .3);
+  padding: 20px 0;
+  padding-right: 300px;
+  transition: all .5s;
+}
+
+.memberContainer:hover {
+  border-bottom: 2px solid rgba(176,224,230, .3);
+}
+
+.member {
+  display: flex;
+  width: 40%;
+  justify-content: flex-start;
+  align-items: center;
+  margin: 0 auto;
+  font-size: 150%;
+  color: white;
+  cursor: pointer;
+}
+
+.userIcon {
+  width: 45px;
+  height: 45px;
+  background-color: #fff;
+  padding: 3px;
+  border-radius: 50%;
+  margin-right: 30px; 
+}

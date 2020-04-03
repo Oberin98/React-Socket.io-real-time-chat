@@ -1,0 +1,59 @@
+.sendMessageFrom {
+  display: flex;
+  box-shadow: 0 -5px 5px -5px rgba(0, 0, 0, 0.6);
+}
+
+.sendMessageInput {
+  padding: 1%;
+  width: 79%;
+  font-size: 1.2em;
+}
+
+.sendMessageButton {
+  color: #fff;
+  text-transform: uppercase;
+  text-decoration: none;
+  background: rgb(10, 17, 46);
+  display: inline-block;
+  width: 15%;
+}
+
+.sendMessageButton > p {
+  transition: ease-in-out 0.2s;
+}
+
+.sendMessageButton:hover > p {
+  transform: scale(1.1);
+}
+
+.startVideoButton {
+  width: 6%;
+  background: rgb(10, 17, 46);
+  display: inline-block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendMessageFrom > .startVideoButton {
+  border-left: 1px solid rgba(176, 224, 230, 0.4);
+}
+
+.startVideoButton > img {
+  width: 35px;
+  height: 35px;
+  padding: 8px;
+  padding-left: 6px;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: ease-in-out 0.2s;
+}
+
+.startVideoButton > img:hover {
+  transform: scale(1.1);
+}
+
+.noBorder {
+  border: none;
+  outline: none;
+}

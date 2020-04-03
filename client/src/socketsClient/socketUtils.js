@@ -1,0 +1,9 @@
+export const JOIN = 'join';
+export const DISCONNECT = 'disconnect';
+export const MESSAGE = 'message';
+export const SEND_MESSAGE = 'semdMessage';
+export const ADD_MEMBER = 'addMember';
+export const CALL = 'call';
+export const BACK_CALL = 'backCall';
+export const MAKE_ANSWER = 'makeAnswer';
+export const ANSWER_MADE = 'madeAnswer';
